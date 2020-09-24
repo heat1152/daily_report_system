@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         String plain_pass = request.getParameter("password");
 
         Employee e = null;
-        if(code != null&&!code.equals("")&&plain_pass != null&&!plain_pass.equals("")){
+        if(code != null && !code.equals("") && plain_pass != null && !plain_pass.equals("")){
             EntityManager em = DBUtil.createEntityManager();
 
             String password = EncryptUtil.getPasswordEncrypt(
@@ -58,7 +58,9 @@ public class LoginServlet extends HttpServlet {
                     .setParameter("pass",password)
                     .getSingleResult();
         }catch(NoResultException ex){}
+
         em.close();
+
         if(e != null){
             check_result = true;
         }
@@ -73,7 +75,7 @@ public class LoginServlet extends HttpServlet {
             rd.forward(request, response);
         }else{
             //認証できたらログイン状態にしてトップページへリダイレクト
-            request.getSession().setAttribute("login_empolyee",e);
+            request.getSession().setAttribute("login_employee",e);
 
             request.getSession().setAttribute("flush", "ログインしました。");
             response.sendRedirect(request.getContextPath() + "/");
