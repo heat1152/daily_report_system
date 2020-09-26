@@ -58,13 +58,6 @@ public class Employee {
     @Column(name = "delete_flag", nullable = false)
     private Integer delete_flag;
 
-    @Column(name = "followed_employee")
-    private Integer followed_employee;
-
-    @Column(name = "follower_employee")
-    private Integer follower_employee;
-
-
     public Integer getId() {
         return id;
     }
@@ -127,22 +120,6 @@ public class Employee {
 
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
-    }
-
-    public Integer getFollowed_employee() {
-        return followed_employee;
-    }
-
-    public void setFollowed_employee(Integer follow_employee) {
-        this.followed_employee = follow_employee;
-    }
-
-    public Integer getFollower_employee() {
-        return follower_employee;
-    }
-
-    public void setFollower_employee(Integer follower_employee) {
-        this.follower_employee = follower_employee;
     }
 
 }
