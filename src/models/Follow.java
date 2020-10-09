@@ -25,6 +25,14 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "getFollowSearch",
             query = "SELECT f FROM Follow AS f WHERE f.user_id = :login_employee AND f.follow_id = :follow_employee"
+            ),
+    @NamedQuery(
+            name = "getAllFollowReports",
+            query = "SELECT r FROM Report AS r WHERE r.employee IN (SELECT f.follow_id FROM Follow AS f WHERE f.user_id = :login_employee) "
+            ),
+    @NamedQuery(
+            name = "getFollowReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee IN (SELECT f.follow_id FROM Follow AS f WHERE f.user_id = :login_employee) "
             )
 })
 

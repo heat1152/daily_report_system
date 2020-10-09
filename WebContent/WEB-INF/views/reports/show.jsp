@@ -47,5 +47,6 @@
         </c:choose>
 
         <p><a href="<c:url value="/reports/index" />">一覧に戻る</a></p>
+        <a href="<c:url value='/reports/follow/index' />">フォロー日報一覧に戻る</a>
     </c:param>
 </c:import>
