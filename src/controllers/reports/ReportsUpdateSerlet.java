@@ -3,6 +3,8 @@ package controllers.reports;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,6 +38,30 @@ public class ReportsUpdateSerlet extends HttpServlet {
             r.setTitle(request.getParameter("title"));
             r.setContent(request.getParameter("content"));
             r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
+
+            try {
+                String Astr = request.getParameter("report_Attendance_time");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                    java.util.Date date = sdf.parse(Astr);
+                    sdf.applyPattern("yyyy-MM-dd HH:mm");
+                    Timestamp timestamp = new Timestamp(date.getTime());
+
+                    r.setAttendance_time(timestamp);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    String Lstr = request.getParameter("report_Leave_time");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                    java.util.Date date = sdf.parse(Lstr);
+                    sdf.applyPattern("yyyy-MM-dd HH:mm");
+                    Timestamp timestamp = new Timestamp(date.getTime());
+
+                    r.setLeave_time(timestamp);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {

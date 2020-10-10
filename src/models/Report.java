@@ -61,6 +61,12 @@ public class Report {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
+    @Column(name = "Attendance_time",nullable = false)
+    private Timestamp Attendance_time;
+
+    @Column(name = "Leave_time",nullable = false)
+    private Timestamp Leave_time;
+
     public Integer getId() {
         return id;
     }
@@ -116,6 +122,23 @@ public class Report {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    public Timestamp getAttendance_time() {
+        return Attendance_time;
+    }
+
+    public void setAttendance_time(Timestamp attendance_time) {
+        Attendance_time = attendance_time;
+    }
+
+    public Timestamp getLeave_time() {
+        return Leave_time;
+    }
+
+    public void setLeave_time(Timestamp leave_time) {
+        Leave_time = leave_time;
+    }
+
 
 
 }
