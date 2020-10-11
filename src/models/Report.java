@@ -67,6 +67,7 @@ public class Report {
     @Column(name = "Leave_time",nullable = false)
     private Timestamp Leave_time;
 
+
     public Integer getId() {
         return id;
     }
@@ -138,7 +139,6 @@ public class Report {
     public void setLeave_time(Timestamp leave_time) {
         Leave_time = leave_time;
     }
-
 
 
 }

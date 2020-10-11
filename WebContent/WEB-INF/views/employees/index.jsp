@@ -21,7 +21,7 @@
                 </tr>
                 <c:forEach var="employee"  items="${employees}" varStatus="status">
                     <tr class="row${status.count % 2}">
-                        <td><c:out value="${employee.code}"/></td>
+                        <td><c:out value="${employee.id}"/></td>
                         <td><c:out value="${employee.name}"/></td>
                         <td>
                             <c:choose>
@@ -34,22 +34,20 @@
                             </c:choose>
                         </td>
 
+                        <!-- フォロー状況チェック -->
                         <td>
+                            <c:set var="follow_check_1">0</c:set>
+                            <c:set var="follow_check_2">0</c:set>
                             <c:forEach var="follow" items="${follows}">
                                 <c:choose>
                                     <c:when test="${employee.id == login_employee.id}">
 
                                     </c:when>
-                                    <c:when test="${employee.delete_flag == 1}">
-                                        <c:set var="delete_check">1</c:set>
-                                    </c:when>
-                                    <c:when test="${employee == follow}">
-
+                                    <c:when test="${employee.id == follow.id}">
                                         <form method="post" action="<c:url value='/follow/update'/>">
                                             <button type="submit" name="follow_employee_id" value="${employee.id}">フォロー解除</button>
                                             <input type="hidden" name="follow_update_check" value="1">
                                         </form>
-
                                         <c:set var="follow_check_1">1</c:set>
                                     </c:when>
                                     <c:otherwise>
@@ -57,30 +55,34 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
+                            <c:choose>
+                            <c:when test="${employee.id == login_employee.id}">
 
-                            <c:if test="${follow_check_1 != 1 and follow_check_2 == 1 or follow_check_1 == 0 and follow_check_2 == 0 and employee.delete_flag != 1}">
+                            </c:when>
+                            <c:when test="${follow_check_1 == 0 and follow_check_2 == 1 and employee.delete_flag != 1 or follow_check_1 == 0 and follow_check_2 == 0 and employee.delete_flag != 1}">
                                 <form method="post" action="<c:url value='/follow/update'/>">
                                     <button type="submit" name="follow_employee_id" value="${employee.id}">フォロー</button>
                                     <input type="hidden" name="follow_update_check" value="0">
                                 </form>
-                            </c:if>
-
+                            </c:when>
+                            </c:choose>
                             <c:if test="${employee.delete_flag == 1}">
                                 (削除済み)
                             </c:if>
-                            <c:set var="follow_check_1">0</c:set>
-                            <c:set var="follow_check_2">0</c:set>
-
                         </td>
 
 
+
+                        <!-- フォロワー状況チェック -->
                         <td>
+                            <c:set var="follower_check_1">0</c:set>
+                            <c:set var="follower_check_2">0</c:set>
                             <c:forEach var="follower" items="${followers}">
                                 <c:choose>
-                                <c:when test="${employee.id == login_employee.id}">
+                                    <c:when test="${employee.id == login_employee.id}">
 
                                     </c:when>
-                                    <c:when test="${employee == follower}">
+                                    <c:when test="${employee.id == follower.id}">
                                         あなたをフォローしています。
                                         <c:set var="follower_check_1">1</c:set>
                                     </c:when>
@@ -89,19 +91,21 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
+                            <c:choose>
+                                <c:when test="${employee.id == login_employee.id}">
 
-                            <c:if test="${follower_check_1 != 1 and follower_check_2 == 1 and employee.delete_flag != 1}">
-                                あなたをフォローしていません。
-                            </c:if>
+                                </c:when>
+                                <c:when test="${follower_check_1 == 0 and follower_check_2 == 1 and employee.delete_flag != 1 or follower_check_1 == 0 and follower_check_2 == 0 and employee.delete_flag != 1}">
+                                    あなたをフォローしていません。
+                                </c:when>
+                            </c:choose>
                             <c:if test="${employee.delete_flag == 1}">
                                 (削除済み)
                             </c:if>
-                        <c:set var="follower_check_1">0</c:set>
-                        <c:set var="follower_check_2">0</c:set>
-                    </td>
-                 </c:forEach>
-            </tbody>
-        </table>
+                        </td>
+                    </c:forEach>
+                </tbody>
+            </table>
 
 
         <div id="pagination">
@@ -117,7 +121,9 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <p><a href="<c:url value='/employees/new'/>">新規従業員の登録</a></p>
+        <c:if test="${employee.admin_flag == 1}">
+            <p><a href="<c:url value='/employees/new'/>">新規従業員の登録</a></p>
+        </c:if>
     </c:param>
 </c:import>
 

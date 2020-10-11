@@ -48,35 +48,30 @@ public class ReportsCreateServlet extends HttpServlet {
             r.setContent(request.getParameter("content"));
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            System.out.println("パラメータ：" + currentTime);
             r.setCreated_at(currentTime);
             r.setUpdated_at(currentTime);
 
 
             try {
+                //出勤退勤時間
             String Astr = request.getParameter("report_Attendance_time");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                java.util.Date date = sdf.parse(Astr);
+                java.util.Date Adate = sdf.parse(Astr);
                 sdf.applyPattern("yyyy-MM-dd HH:mm");
-                Timestamp timestamp = new Timestamp(date.getTime());
+                Timestamp Atime = new Timestamp(Adate.getTime());
 
-                r.setAttendance_time(timestamp);
+                r.setAttendance_time(Atime);
+
+                String Lstr = request.getParameter("report_Leave_time");
+                sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                java.util.Date Ldate = sdf.parse(Lstr);
+                sdf.applyPattern("yyyy-MM-dd HH:mm");
+                Timestamp Ltime = new Timestamp(Ldate.getTime());
+
+                r.setLeave_time(Ltime);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-            try {
-                String Lstr = request.getParameter("report_Leave_time");
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                java.util.Date date = sdf.parse(Lstr);
-                sdf.applyPattern("yyyy-MM-dd HH:mm");
-                Timestamp timestamp = new Timestamp(date.getTime());
-
-                r.setLeave_time(timestamp);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
 
 
             List<String> errors = ReportValidator.validate(r);

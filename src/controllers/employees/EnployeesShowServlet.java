@@ -23,13 +23,14 @@ public class EnployeesShowServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
+        Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
         Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
 
         em.close();
 
         request.setAttribute("employee", e);
-
+        request.setAttribute("login_employee", login_employee);
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/employees/show.jsp");
         rd.forward(request, response);
     }

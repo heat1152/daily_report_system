@@ -40,7 +40,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <p><a href="<c:url value='/employees/edit?id=${employee.id}'/>">この従業員情報を編集する</a></p>
+                <c:if test="${login_employee.admin_flag == 1}">
+                    <p><a href="<c:url value='/employees/edit?id=${employee.id}'/>">この従業員情報を編集する</a></p>
+                </c:if>
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした。</h2>
