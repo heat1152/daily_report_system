@@ -121,7 +121,7 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <c:if test="${employee.admin_flag == 1}">
+        <c:if test="${login_employee.admin_flag == 1}">
             <p><a href="<c:url value='/employees/new'/>">新規従業員の登録</a></p>
         </c:if>
     </c:param>
